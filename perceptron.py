@@ -4,6 +4,11 @@ import plotly.express as px
 from ggplot import *
 
 
+def sigmoid(x):
+    """Sigmoid function"""
+    return 1 / (np.exp(-x) + 1)
+
+
 # Read in the training data - two separate MVN distributions
 train_data = pd.read_csv("perceptron_training_data.csv")
 train_data = train_data.drop(train_data.columns[0], axis=1)
@@ -11,8 +16,8 @@ train_data = train_data.drop(train_data.columns[0], axis=1)
 # Visualise Training data
 train_plot_data = train_data.copy()
 train_plot_data['y'] = train_plot_data["y"].astype(str)
-fig = px.scatter(train_plot_data, x='x_1', y='x_2', color='y')
-fig.show()
+# fig = px.scatter(train_plot_data, x='x_1', y='x_2', color='y')
+# fig.show()
 
 # Initialise the model
 x = np.matrix(train_data.drop('y', axis=1).values)
@@ -48,7 +53,7 @@ for i in range(max_iter):
         # Calculate model for each data point with most recent weights
         f = np.dot(w, X[:, j])
         # Check optimisation condition
-        if f.item(0) * y[j] <= 0:
+        if sigmoid(f.item(0) * y[j]) <= 0.5:
             # Update weights when optimisation condition is not met
             w = w + np.asmatrix(lr * y[j] * X[:, j]).T
 
