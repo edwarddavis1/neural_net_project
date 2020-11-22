@@ -12,11 +12,13 @@ def sigmoid(x):
 # Read in the training data - two separate MVN distributions
 train_data = pd.read_csv("perceptron_training_data.csv")
 train_data = train_data.drop(train_data.columns[0], axis=1)
-train_data = train_data.append(pd.DataFrame({
-    "x_1": [50],
-    "x_2": [2],
-    "y": [-1]
-}), ignore_index=True)
+
+# # Add outlier to see how the model reacts
+# train_data = train_data.append(pd.DataFrame({
+#     "x_1": [50],
+#     "x_2": [2],
+#     "y": [-1]
+# }), ignore_index=True)
 
 
 # Visualise Training data
