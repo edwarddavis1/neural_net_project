@@ -6,11 +6,11 @@ from ggplot import *
 
 def sigmoid(x):
     """Sigmoid function"""
-    return 1 / (np.exp(-x) + 1)
+    return 1 / (1 + np.exp(-x))
 
 
 # Read in the training data - two separate MVN distributions
-train_data = pd.read_csv("perceptron_training_data.csv")
+train_data = pd.read_csv("gapped_clusters.csv")
 train_data = train_data.drop(train_data.columns[0], axis=1)
 
 # # Add outlier to see how the model reacts
@@ -23,8 +23,8 @@ train_data = train_data.drop(train_data.columns[0], axis=1)
 # Visualise Training data
 train_plot_data = train_data.copy()
 train_plot_data['y'] = train_plot_data["y"].astype(str)
-fig = px.scatter(train_plot_data, x='x_1', y='x_2', color='y')
-fig.show()
+# fig = px.scatter(train_plot_data, x='x_1', y='x_2', color='y')
+# fig.show()
 
 # Initialise the model
 x = np.matrix(train_data.drop('y', axis=1).values)
@@ -67,5 +67,6 @@ for i in range(max_iter):
 
 # Plot the results
 ggplot(aes('x_1', 'x_2', color='y'), data=train_plot_data) +\
-    geom_point() +\
-    geom_abline(intercept=-w.item(2) / w.item(1), slope=-w.item(0) / w.item(1))
+    geom_point(colour=y) +\
+    geom_abline(intercept=-w.item(2) / w.item(1),
+                slope=-w.item(0) / w.item(1), colour="red")
