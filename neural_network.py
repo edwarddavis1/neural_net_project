@@ -84,13 +84,15 @@ class NeuralNet:
 
 # Read in training data
 # train_data = pd.read_csv("Audiobooks_data.csv")
+# inputs = np.matrix(train_data.drop("Targets", axis=1).values)
+# y = np.matrix(train_data['Targets'].values).T
+
 train_data = pd.DataFrame({
     "x1": [0, 0, 1, 1],
     "x2": [0, 1, 0, 1],
     "x3": [1, 1, 1, 1],
     "y": [0, 1, 1, 0]
 })
-
 inputs = np.matrix(train_data.drop("y", axis=1).values)
 y = np.matrix(train_data.y.values).T
 
@@ -99,5 +101,3 @@ NN.train(max_iter=10)
 
 new_inputs = inputs[:-1, 1].T
 NN.predict(new_inputs)
-
-NN.plot_training()
